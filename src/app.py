@@ -42,12 +42,18 @@ def home():
 # Returns the safety value at this location
 @app.route('/safety/point', methods=['POST'])
 def safety_at_point():
+    if request is None or not request.is_json:
+        raise InvalidUsage('Request is in an invalid state', status_code=400)
+
     return {"page": "safety_at_point"}
 
 # Receives POST request containing a series of locations, representing a route
 # Returns the safety value on this route
 @app.route('/safety/route', methods=['POST'])
 def safety_on_route():
+    if request is None or not request.is_json:
+        raise InvalidUsage('Request is in an invalid state', status_code=400)
+
     return {"page": "safety_on_route"}
 
 if __name__ == "__main__":
