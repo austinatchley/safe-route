@@ -49,3 +49,6 @@ def safety_at_point():
 @app.route('/safety/route', methods=['POST'])
 def safety_on_route():
     return {"page": "safety_on_route"}
+
+if __name__ == "__main__":
+    main()
