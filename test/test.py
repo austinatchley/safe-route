@@ -1,4 +1,5 @@
 import unittest
+import requests
 
 class TestPostRequests(unittest.TestCase):
     def test_point(self):
