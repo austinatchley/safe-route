@@ -11,6 +11,10 @@ def main():
 
     app.run(debug=args.debug, port=args.port)
 
+# Calculates the safety value for a single location
+def calculate_safety(location):
+    return 0.0
+
 # Custom Exception used for returning meaningful messages to API requests
 class InvalidUsage(Exception):
     status_code = 400
@@ -45,7 +49,14 @@ def safety_at_point():
     if request is None or not request.is_json:
         raise InvalidUsage('Request is in an invalid state', status_code=400)
 
-    return {"page": "safety_at_point"}
+    try:
+        location = request.json["location"]
+    except:
+        raise InvalidUsage('Location required', status_code=400)
+
+    safety = calculate_safety(location)
+
+    return {"page": "safety_at_point", "safety": safety}
 
 # Receives POST request containing a series of locations, representing a route
 # Returns the safety value on this route
@@ -54,7 +65,16 @@ def safety_on_route():
     if request is None or not request.is_json:
         raise InvalidUsage('Request is in an invalid state', status_code=400)
 
-    return {"page": "safety_on_route"}
+    try:
+        locations = request.json["locations"]
+    except:
+        raise InvalidUsage('Locations required', status_code=400)
+
+    safety = 0.0
+    for location in locations:
+        safety += calculate_safety(location)
+
+    return {"page": "safety_on_route", "safety": safety}
 
 if __name__ == "__main__":
     main()
