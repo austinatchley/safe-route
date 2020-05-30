@@ -2,8 +2,8 @@ import unittest
 import requests
 
 class TestPostRequests(unittest.TestCase):
-    def test_point(self):
-        r = requests.post(url = "http://127.0.0.1:5000/safety/point", json = {"location": "test"})
+    def test_loc(self):
+        r = requests.post(url = "http://127.0.0.1:5000/safety/loc", json = {"location": "test"})
         self.assertEqual(r.status_code, 200)
 
     def test_route(self):

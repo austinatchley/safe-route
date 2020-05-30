@@ -44,7 +44,7 @@ def home():
 
 # Receives POST request containing a location
 # Returns the safety value at this location
-@app.route('/safety/point', methods=['POST'])
+@app.route('/safety/loc', methods=['POST'])
 def safety_at_point():
     if request is None or not request.is_json:
         raise InvalidUsage('Request is in an invalid state', status_code=400)
@@ -56,7 +56,7 @@ def safety_at_point():
 
     safety = calculate_safety(location)
 
-    return {"page": "safety_at_point", "safety": safety}
+    return {"page": "safety_at_loc", "safety": safety}
 
 # Receives POST request containing a series of locations, representing a route
 # Returns the safety value on this route
