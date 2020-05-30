@@ -12,8 +12,16 @@ def main():
     app.run(debug=args.debug, port=args.port)
 
 # Calculates the safety value for a single location
-def calculate_safety(location):
+def calculate_safety(latitude, longitude):
     return 0.0
+
+def parse_location(location):
+    parsed_loc = location.split(',')
+
+    if len(parsed_loc) < 2:
+        raise InvalidUsage("A location needs comma-separated longitude and latitude")
+
+    return parsed_loc[0], parsed_loc[1]
 
 # Custom Exception used for returning meaningful messages to API requests
 class InvalidUsage(Exception):
@@ -54,7 +62,8 @@ def safety_at_point():
     except:
         raise InvalidUsage('Location required', status_code=400)
 
-    safety = calculate_safety(location)
+    longitude, latitude = parse_location(location)
+    safety = calculate_safety(longitude, latitude)
 
     return {"page": "safety_at_loc", "safety": safety}
 
@@ -72,7 +81,8 @@ def safety_on_route():
 
     safety = 0.0
     for location in locations:
-        safety += calculate_safety(location)
+        longitude, latitude = parse_location(location)
+        safety += calculate_safety(longitude, latitude)
 
     return {"page": "safety_on_route", "safety": safety}
 
